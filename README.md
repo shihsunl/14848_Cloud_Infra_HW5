@@ -6,8 +6,12 @@
 - docker run -v /path/to/14848_Cloud_Infra_A5:/temp --rm -it -p 8888:8888 -e ACCEPT_EULA=yes mcr.microsoft.com/mmlspark/release
 
 # How to run spark?
+## Run spark job
 - Once you launch the docker container,
 ```
 cd /temp
 python3 spark_task.py
 ```
+
+## output
+![output](screenshot/output.png)
