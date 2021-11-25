@@ -50,8 +50,6 @@ def merge(content):
 
     return (word, output_arr)
 
-
-#path = '/temp/Data/Hugo/'
 path = '/temp/Data/txt_files/'
 rdd = sc.wholeTextFiles(path)
 
