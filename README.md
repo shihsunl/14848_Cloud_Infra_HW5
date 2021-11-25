@@ -22,3 +22,48 @@ python3 spark_task.py
 ## Output
 ![output](screenshot/output.png)
 
+# Azure Kubernates
+
+## Create a cluster
+![kube_service1](screenshot/kube_service1.png)
+![kube_service2](screenshot/kube_service2.png)
+
+## Create Workloads and Pods
+- yaml file for creating workload
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-app
+  labels:
+    app: spark-app
+spec:
+  selector:
+     matchLabels:
+       app: spark-app
+  replicas: 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1 
+  template:
+    metadata:
+      labels:
+        app: spark-app
+    spec:
+      containers:
+        - image: shihsunl/14848_hw5:test
+          imagePullPolicy: Always
+          name: spark-app
+          ports:
+            - containerPort: 8888
+            - containerPort: 8080
+            - containerPort: 8042
+```
+![pod](screenshot/pod.png)
+![container](screenshot/container.png)
+
+## Azure container logs
+![console_output](screenshot/console_output.png)
