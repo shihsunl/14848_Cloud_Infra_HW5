@@ -13,5 +13,10 @@ cd /temp
 python3 spark_task.py
 ```
 
-## output
+## Code
+- I removed all the punctuation, '\r', '\n', and converted all characters to lower case.
+![code](screenshot/code.png)
+
+## Output
 ![output](screenshot/output.png)
+
