@@ -53,12 +53,27 @@ def merge(content):
 path = '/temp/Data/txt_files/'
 rdd = sc.wholeTextFiles(path)
 
+# method 1
+'''
 output = rdd.flatMap(lambda content: ((word, [content[0]]) for word in content[1].lower()\
          .replace(';',' ').replace(',',' ').replace('\n',' ').replace('\r',' ')\
          .replace('"','').replace('  ',' ').replace("'s","").replace('!','')\
          .replace('?','').replace('.','').replace(':','').split()))\
          .filter(lambda mapping: mapping[0] not in customized_stopwords)\
          .reduceByKey(lambda a,b: a+b).map(lambda mapping: merge(mapping))
+'''
+# method 2
+output = rdd.flatMap(lambda content: (([content[0]], word) for word in content[1].lower()\
+         .replace(';',' ').replace(',',' ').replace('\n',' ').replace('\r',' ')\
+         .replace('"','').replace('  ',' ').replace("'s","").replace('!','')\
+         .replace('?','').replace('.','').replace(':','').split()))\
+         .filter(lambda mapping: mapping[1] not in customized_stopwords)\
+         .map(lambda x: ( (x[1], x[0].pop()), 1))\
+         .reduceByKey(lambda a,b: a+b)\
+         .map(lambda x: (x[0][0], [(x[0][1], x[1])]))\
+         .reduceByKey(lambda a,b: a+b)
+
+
 
 output_data = output.collect()
 print(output_data)
